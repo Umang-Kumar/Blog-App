@@ -20,3 +20,8 @@ class PostAdmin(admin.ModelAdmin):
 @admin.register(ContactProfile)
 class ContactAdmin(admin.ModelAdmin):
 	list_display = ('id', 'timestamp', 'name',)
+
+# @admin.register(ContactProfile)
+# class PostBlog(admin.ModelAdmin):
+#     list_display = ('id','title','is_active')
+#     readonly_fields = ('slug',)

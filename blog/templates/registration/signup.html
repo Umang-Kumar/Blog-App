@@ -1,0 +1,64 @@
+{% extends 'signbase.html' %}
+{% block content %}
+
+
+
+
+<section class="ftco-section">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-10">
+                <div class="wrap d-md-flex">
+                    <div class="text-wrap p-4 p-lg-5 text-center d-flex align-items-center order-md-last">
+                        <div class="text w-100">
+                            <h2>Welcome to Sign Up</h2>
+                            <p>Already have an account?</p>
+                            <a href="/accounts/login" class="btn btn-white btn-outline-white">Login</a>
+                        </div>
+                    </div>
+                    <div class="login-wrap p-4 p-lg-5">
+                        <div class="d-flex">
+                            <div class="w-100">
+                                <h3 class="mb-4"> Sign Up</h3>
+                            </div>
+
+                        </div>
+                        <form action="/signup/" method="post" class="signin-form">
+                            {% csrf_token %}
+                            <div class="form-group mb-3">
+                                <label class="label" for="fname">First Name</label>
+                                <input type="text" class="form-control" placeholder="First Name" required name="fname">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label" for="fname">Last Name</label>
+                                <input type="text" class="form-control" placeholder="Last Name" required name="lname">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label" for="name">Username</label>
+                                <input type="text" class="form-control" placeholder="Username" required name="username">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label" for="fname">Email</label>
+                                <input type="email" class="form-control" placeholder="Email" required name="email">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label" for="password">Password</label>
+                                <input type="text" class="form-control" placeholder="Password" required name="password">
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="label" for="password">Confirm Password</label>
+                                <input type="password" class="form-control" placeholder="Confirm Password" required
+                                    name="cpassword">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" class="form-control btn btn-primary submit px-3" value="SignUp" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endblock  %}

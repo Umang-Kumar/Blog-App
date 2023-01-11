@@ -73,7 +73,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'myblog.wsgi.application'
 
 LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'blog:index'
 
 
 # Database

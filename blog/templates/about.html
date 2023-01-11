@@ -1,23 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="container-fluid">
-        <main class="tm-main">
-            <!-- Search form -->
-            <div class="row tm-row">
-                <div class="col-12">
-                    <form method="GET" class="form-inline tm-mb-80 tm-search-form">                
-                        <input class="form-control tm-search-input" name="query" type="text" placeholder="Search..." aria-label="Search">
-                        <button class="tm-search-button" type="submit">
-                            <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
-                        </button>                                
-                    </form>
-                </div>                
-            </div>            
+    <div class="container-fluid">            
             <div class="row tm-row tm-mb-45">
                 <div class="col-12">
                     <hr class="tm-hr-primary tm-mb-55">
-                    <img src="img/about-01.jpg" alt="Image" class="img-fluid">
+                    <img src="{% static 'img/about-01.jpg' %}" alt="Image" class="img-fluid">
                 </div>
             </div>
             <div class="row tm-row tm-mb-40">
@@ -84,7 +72,7 @@
                 </div>                
                 <div class="col-lg-6 tm-mb-60 tm-person-col">
                     <div class="media tm-person">
-                        <img src="img/about-02.jpg" alt="Image" class="img-fluid mr-4">
+                        <img src="{% static 'img/about-02.jpg' %}" alt="Image" class="img-fluid mr-4">
                         <div class="media-body">
                             <h2 class="tm-color-primary tm-post-title mb-2">John Henry</h2>
                             <h3 class="tm-h3 mb-3">CEO/Founder</h3>
@@ -97,7 +85,7 @@
                 </div>
                 <div class="col-lg-6 tm-mb-60 tm-person-col">
                     <div class="media tm-person">
-                        <img src="img/about-03.jpg" alt="Image" class="img-fluid mr-4">
+                        <img src="{% static 'img/about-03.jpg' %}" alt="Image" class="img-fluid mr-4">
                         <div class="media-body">
                             <h2 class="tm-color-primary tm-post-title mb-2">Timy Cake</h2>
                             <h3 class="tm-h3 mb-3">Project Director</h3>
@@ -110,7 +98,7 @@
                 </div>
                 <div class="col-lg-6 tm-mb-60 tm-person-col">
                     <div class="media tm-person">
-                        <img src="img/about-04.jpg" alt="Image" class="img-fluid mr-4">
+                        <img src="{% static 'img/about-04.jpg' %}" alt="Image" class="img-fluid mr-4">
                         <div class="media-body">
                             <h2 class="tm-color-primary tm-post-title mb-2">Jay Zoona</h2>
                             <h3 class="tm-h3 mb-3">Supervisor</h3>
@@ -123,7 +111,7 @@
                 </div>
                 <div class="col-lg-6 tm-mb-60 tm-person-col">
                     <div class="media tm-person">
-                        <img src="img/about-05.jpg" alt="Image" class="img-fluid mr-4">
+                        <img src="{% static 'img/about-05.jpg' %}" alt="Image" class="img-fluid mr-4">
                         <div class="media-body">
                             <h2 class="tm-color-primary tm-post-title mb-2">Catherine Soft</h2>
                             <h3 class="tm-h3 mb-3">Team Leader</h3>
@@ -135,7 +123,6 @@
                         </div>
                     </div>
                 </div>
-            </div>        
-        </main>
+            </div>
     </div>
 {% endblock %}

@@ -167,7 +167,7 @@ ul {
 .form-inline .form-control.tm-search-input {
     display: block;
     height: 60px;
-    width: 480px;
+    width: 65%;
     margin-right: 30px;
     border-radius: 0;
     border-color: #0CC;

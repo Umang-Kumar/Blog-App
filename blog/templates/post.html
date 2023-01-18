@@ -5,11 +5,7 @@
             <div class="row tm-row">
                 <div class="col-12">
                     <hr class="tm-hr-primary tm-mb-55">
-                    <!-- Video player 1422x800 -->
-                    <video width="954" height="535" controls class="tm-mb-40">
-                        <source src="{% static 'video/wheat-field.mp4' %}" type="video/mp4">							  
-                        Your browser does not support the video tag.
-                    </video>
+                    <img src="{{object.image.url}}" alt="Image" class="img-fluid">
                 </div>
             </div>
             <div class="row tm-row">
@@ -114,13 +110,5 @@
                     </div>                    
                 </aside>
             </div>
-            <footer class="row tm-row">
-                <div class="col-md-6 col-12 tm-color-gray">
-                    Design: <a rel="nofollow" target="_parent" href="https://templatemo.com" class="tm-external-link">TemplateMo</a>
-                </div>
-                <div class="col-md-6 col-12 tm-color-gray tm-copyright">
-                    Copyright 2020 Xtra Blog Company Co. Ltd.
-                </div>
-            </footer>
     </div>
 {% endblock %}

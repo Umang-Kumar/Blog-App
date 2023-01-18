@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% if searched %}
+    <div class="row tm-row">
+        {% if blogs %}
+        <div class="col-12">
+            <h2 class="tm-color-primary tm-post-title">Search Results for "{{ searched }}"</h2>
+        </div>
+            {% for blog in blogs %}
+            {% if blog.is_active %}
+                <article class="col-12 col-md-6 tm-post">
+                    <hr class="tm-hr-primary">
+                    <a href="{% url 'blog:post' slug=blog.slug %}" class="effect-lily tm-post-link tm-pt-60">
+                        <div class="tm-post-link-inner">
+                            <img src="{{blog.image.url}}" alt="Image" class="img-fluid">                            
+                        </div>
+                        {% if p in latest %}
+                            <span class="position-absolute tm-new-badge">New</span>
+                        {% endif %}
+                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">{{p.title}}</h2>
+                    </a>                    
+                    <p class="tm-pt-30">
+                        {{blog.body|truncatechars:255|safe}}
+                    </p>
+                    <div class="d-flex justify-content-between tm-pt-45">
+                        <span class="tm-color-primary">{{blog.category}}</span>
+                        <span class="tm-color-primary">{{blog.created_at|date}}</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <span>36 comments</span>
+                        <span>by {{blog.author}}</span>
+                    </div>
+                </article>
+            {% endif %}
+            {% endfor %}
+        {% else %}
+            <h4>Nothing matches your search..😞 "{{ searched }}". Search with Title or Category</h4>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

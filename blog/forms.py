@@ -23,11 +23,13 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = [
 			'title', 
+			'category',
 			'body', 
 			'image',
 		]
-widgets = {
-			'title': forms.TextInput(attrs={'class': 'formbold-form-input'}),
-			'body': forms.Textarea(attrs={'class': 'formbold-form-input'}),
+        widgets = {
+			'title': forms.TextInput(attrs={'class': 'form-control'}),
+			'category': forms.TextInput(attrs={'class': 'form-control'}),
+			'body': forms.Textarea(attrs={'class': 'form-control'}),
 			'image': forms.FileInput(attrs={'class': 'form-control'}),
 		}

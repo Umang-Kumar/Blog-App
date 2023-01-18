@@ -7,21 +7,10 @@
           <h2 class="tm-color-primary tm-post-title tm-mb-60">Post Something..</h2>
       </div>
       <div class="col-lg-7 tm-contact-left">
-          <form method="POST" action="/postBlog/" class="mb-5 ml-auto mr-0 tm-contact-form">                        
+          <form method="POST" action="/postBlog/" enctype="multipart/form-data" class="mb-5 ml-auto mr-0 tm-contact-form">                        
               {% csrf_token %}
-              <div class="form-group row mb-4">
-                  <label for="title" class="col-sm-3 col-form-label text-right tm-color-primary">Name</label>
-                  <div class="col-sm-9">
-                      {{form.title}}
-                  </div>
-              </div>
-              
-              <div class="form-group row mb-5">
-                  <label for="body" class="col-sm-3 col-form-label text-right tm-color-primary">Message</label>
-                  <div class="col-sm-9">
-                      {{form.body}}
-                  </div>
-              </div>
+              {{ form.as_p }}
+
               <div class="form-group row text-right">
                   <div class="col-12">
                       <button class="tm-btn tm-btn-primary tm-btn-small">Submit</button>                        
@@ -31,4 +20,12 @@
       </div>
   </div>      
 </div>
+{% endblock %}
+{% block js %}
+<script>
+    {% if alert %}
+    alert('Your Blog is added successfully.');
+    document.location = '/';
+    {% endif %}
+</script>
 {% endblock %}

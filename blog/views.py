@@ -5,15 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 
-
 from . forms import ContactForm, PostForm
+from django.contrib import messages
+from .models import *
+
 
 # Create your views here.
-from django.contrib import messages
-from .models import (
-		UserProfile,
-        Post,
-)
 
 class IndexView(generic.TemplateView):
 	template_name = "index.html"
@@ -22,7 +19,9 @@ class IndexView(generic.TemplateView):
 		context = super().get_context_data(**kwargs)
 		
 		posts = Post.objects.all()
+		latest  = Post.objects.all().order_by('-id')[:3]
 		context['posts'] = posts
+		context['latest'] = latest
 		
 		return context
     
@@ -48,13 +47,24 @@ class AboutView(generic.TemplateView):
 class PostBlog(generic.FormView):
 	template_name = "postBlog.html"
 	form_class = PostForm
-	# fields = ['title', 'content', 'image', 'is_active']
 	success_url = "/"
 
 	def form_valid(self, form):
-		form.instance.author = self.request.user
+		blogpost = form.save(commit=False)
+		blogpost.author = self.request.user
+		blogpost.save()
+		messages.success(self.request, "Blog post created successfully")
 		return super().form_valid(form)
 
+
+class Search(generic.ListView):
+	def search(request):
+		if request.method == "POST":
+			searched = request.POST['searched']
+			blogs = Post.objects.filter(title__contains=searched) | Post.objects.filter(category__contains=searched)
+			return render(request, "search.html", {'searched':searched, 'blogs':blogs})
+		else:
+			return render(request, "search.html", {})
 
 class ContactView(generic.FormView):
 	template_name = "contact.html"

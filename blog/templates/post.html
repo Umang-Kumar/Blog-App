@@ -13,7 +13,7 @@
                     <div class="tm-post-full">                    
                         <div class="mb-4">
                             <h2 class="pt-2 tm-color-primary tm-post-title">{{object.title}}</h2>
-                            <p class="tm-mb-40">June 16, 2020 posted by Admin Nat</p>
+                            <p class="tm-mb-40">{{object.created_at|date}}</p>
                             <p>
                                 {{object.body|safe}}
                             </p>
@@ -22,56 +22,38 @@
                         
                         <!-- Comments -->
                         <div>
-                            <h2 class="tm-color-primary tm-post-title">Comments</h2>
+                            <h2 class="tm-color-primary tm-post-title"> All Comments ({{comments.count}})</h2>
                             <hr class="tm-hr-primary tm-mb-45">
+                            {% for comment in comments %}
                             <div class="tm-comment tm-mb-45">
                                 <figure class="tm-comment-figure">
-                                    <img src="img/comment-1.jpg" alt="Image" class="mb-2 rounded-circle img-thumbnail">
-                                    <figcaption class="tm-color-primary text-center">Mark Sonny</figcaption>
+                                    {% if comment.user.userprofile.avatar %}
+                                        <img src="{{comment.user.userprofile.avatar.url}}" alt="Image" style="height: 100px; width: 100px;" class="mb-2 img-thumbnail">
+                                    {% else %}
+                                        <img src="{% static 'img/default.png' %}" alt="Image" style="height: 100px; width: 100px;" class="mb-2 img-thumbnail">
+                                    {% endif %}
+                                    <figcaption class="tm-color-primary text-center">{{comment.user}}</figcaption>
                                 </figure>
                                 <div>
                                     <p>
-                                        Praesent aliquam ex vel lectus ornare tritique. Nunc et eros
-                                        quis enim feugiat tincidunt et vitae dui. Nullam consectetur
-                                        justo ac ex laoreet rhoncus. Nunc id leo pretium, faucibus 
-                                        sapien vel, euismod turpis.
+                                        {{comment.content}}
                                     </p>
                                     <div class="d-flex justify-content-between">
-                                        <a href="#" class="tm-color-primary">REPLY</a>
-                                        <span class="tm-color-primary">June 14, 2020</span>
+                                        <a href="#" class="tm-color-primary"></a>
+                                        <span class="tm-color-primary">{{comment.dateTime|date}}</span>
                                     </div>                                                 
                                 </div>                                
                             </div>
-                            <div class="tm-comment-reply tm-mb-45">
-                                <hr>
-                                <div class="tm-comment">
-                                    <figure class="tm-comment-figure">
-                                        <img src="img/comment-2.jpg" alt="Image" class="mb-2 rounded-circle img-thumbnail">
-                                        <figcaption class="tm-color-primary text-center">Jewel Soft</figcaption>    
-                                    </figure>
-                                    <p>
-                                        Nunc et eros quis enim feugiat tincidunt et vitae dui.
-                                        Nullam consectetur justo ac ex laoreet rhoncus. Nunc
-                                        id leo pretium, faucibus sapien vel, euismod turpis.
-                                    </p>
-                                </div>                                
-                                <span class="d-block text-right tm-color-primary">June 21, 2020</span>
-                            </div>
-                            <form action="" class="mb-5 tm-comment-form">
+                            {% endfor %}
+                            <form action="/blog/{{object.slug}}" method="POST" class="mb-5 tm-comment-form"> {% csrf_token %}
                                 <h2 class="tm-color-primary tm-post-title mb-4">Your comment</h2>
                                 <div class="mb-4">
-                                    <input class="form-control" name="name" type="text">
-                                </div>
-                                <div class="mb-4">
-                                    <input class="form-control" name="email" type="text">
-                                </div>
-                                <div class="mb-4">
-                                    <textarea class="form-control" name="message" rows="6"></textarea>
+                                    <textarea class="form-control" id="content" name="content" rows="6"></textarea>
                                 </div>
                                 <div class="text-right">
                                     <button class="tm-btn tm-btn-primary tm-btn-small">Submit</button>                        
                                 </div>                                
-                            </form>                          
+                            </form>
                         </div>
                     </div>
                 </div>

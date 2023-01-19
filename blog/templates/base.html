@@ -45,6 +45,14 @@
                             <i class="fas fa-pen"></i>
                             Post a Blog
                         </a></li>
+                        {% if user.is_authenticated %}
+                            {% url 'blog:profile' as url %}
+                            <li class="tm-nav-item {% if request.path == url %}active{% endif %}">
+                                <a href="{{ url }}" class="tm-nav-link">
+                                <i class="fa fa-dashboard"></i>
+                                Profile
+                            </a></li>
+                        {% endif %}
                         {% url 'blog:about' as url %}
                         <li class="tm-nav-item {% if request.path == url %}active{% endif %}">
                             <a href="{{ url }}" class="tm-nav-link">

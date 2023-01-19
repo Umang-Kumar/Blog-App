@@ -1,12 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import(
-    UserProfile,
-    Post,
-    ContactProfile,
-)
-
+from .models import *
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
@@ -20,6 +15,10 @@ class PostAdmin(admin.ModelAdmin):
 @admin.register(ContactProfile)
 class ContactAdmin(admin.ModelAdmin):
 	list_display = ('id', 'timestamp', 'name',)
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'content',)
 
 # @admin.register(ContactProfile)
 # class PostBlog(admin.ModelAdmin):

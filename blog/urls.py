@@ -11,12 +11,16 @@ urlpatterns = [
     path('blog/', views.PostView.as_view(), name='posts'),
     path('blog/<slug:slug>', views.PostDetailView.as_view(), name='post'),
     path('postBlog/', views.PostBlog.as_view(), name='postBlog'),
-    path('search/', views.Search.search, name='search'),
+    path('search/', views.SearchBlog.as_view(), name='search'),
+
+    # profile
+    path("profile/", views.DashboardView.as_view(), name="profile"),
+    path("profile/edit/", views.EditProfileView.as_view(), name="edit_profile"),
 
     # authentication
-    path('login/', views.login, name="login"),
-    path('signup/', views.signup, name="signup"),
-    path('logout/', views.logout, name="logout"),
+    path('login/', views.LoginView.as_view(), name="login"),
+    path('signup/', views.SignupView.as_view(), name="signup"),
+    path('logout/', views.LogoutView.as_view(), name="logout"),
 
     # admin
     path('admin/', admin.site.urls),

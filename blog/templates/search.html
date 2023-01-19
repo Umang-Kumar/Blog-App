@@ -18,7 +18,7 @@
                         {% if p in latest %}
                             <span class="position-absolute tm-new-badge">New</span>
                         {% endif %}
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">{{p.title}}</h2>
+                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">{{blog.title}}</h2>
                     </a>                    
                     <p class="tm-pt-30">
                         {{blog.body|truncatechars:255|safe}}

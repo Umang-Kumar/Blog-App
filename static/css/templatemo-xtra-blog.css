@@ -14,7 +14,7 @@ body {
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 19px;
     line-height: 2em;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
 
 p, span { color: #999; }
@@ -591,8 +591,15 @@ a:hover figcaption { color: #056767; }
 @media (max-width: 480px) {
     .tm-person-col { width: 100%; }
     .tm-person { flex-direction: row; }
+    /* .jeeyo{
+        display: unset;
+    } */
 }
 
 @media (max-width: 380px) {
     .tm-person img { max-width: 120px; }
+}
+.jeeyo{
+    display:flex;
+    justify-content: space-around;
 }

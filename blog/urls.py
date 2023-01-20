@@ -11,7 +11,9 @@ urlpatterns = [
     path('blog/', views.PostView.as_view(), name='posts'),
     path('blog/<slug:slug>', views.PostDetailView.as_view(), name='post'),
     path('postBlog/', views.PostBlog.as_view(), name='postBlog'),
+    path('blog/<slug:slug>/edit/', views.EditPostView.as_view(), name='edit_post'),
     path('search/', views.SearchBlog.as_view(), name='search'),
+    path('blog/<int:pk>/delete/', views.DeletePostView.as_view(), name='delete_post'),
 
     # profile
     path("profile/", views.DashboardView.as_view(), name="profile"),

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Edit Blog Post {% endblock %}
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-info" role="alert">
+                <strong>Alert!</strong> {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <h1 class="text-center">Edit Blog Post</h1>
+    <form enctype="multipart/form-data" method="POST"> {% csrf_token %}
+    <div class="container mt-4">
+    {{ form.as_p }}
+    <button class="tm-btn tm-btn-primary">Update Blog</button>
+    </div>
+    </form>
+{% endblock %}

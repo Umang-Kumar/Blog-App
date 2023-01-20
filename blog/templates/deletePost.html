@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+<h1 class="text-center">Scroll down and delete this Blog</h1>
+    <div class="container-fluid">         
+        <div class="row tm-row">
+            <div class="row-12">
+                <hr class="tm-hr-primary tm-mb-55">
+                {% if object.image %}
+                    <img src="{{object.image.url}}" alt="Image" class="img-fluid">
+                {% else %}
+                    <img src="{% static 'img/defaultBlog.jpg' %}" alt="Image" class="img-fluid">
+                {% endif %}
+            </div>
+        </div>
+        <div class="row tm-row">
+            <div class="col-lg-8 tm-post-col">
+                <div class="tm-post-full">                    
+                    <div class="mb-4">
+                        <h2 class="pt-2 tm-color-primary tm-post-title">{{object.title}}</h2>
+                        <p class="tm-mb-40">{{object.created_at|date}}</p>
+                        <p>
+                            {{object.body|safe}}
+                        </p>
+                        <span class="d-block text-right tm-color-primary">- by <b>{{object.author}}</b></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="{% url 'blog:delete_post' post.id %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete" class=" center btn btn-danger tm-btn tm-btn-small">
+    </form>
+{% endblock %}

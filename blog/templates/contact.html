@@ -16,6 +16,13 @@
             <div class="row tm-row tm-mb-120">
                 <div class="col-12">
                     <h2 class="tm-color-primary tm-post-title tm-mb-60">Contact Us</h2>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-info" role="alert">
+                                <strong>Alert!</strong> {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
                 <div class="col-lg-7 tm-contact-left">
                     <form method="POST" action="/contact/" class="mb-5 ml-auto mr-0 tm-contact-form">                        
@@ -53,22 +60,20 @@
                 </div>
                 <div class="col-lg-5 tm-contact-right">
                     <address class="mb-4 tm-color-gray">
-                        120 Lorem ipsum dolor sit amet,
-                        consectetur adipiscing 10550
+                        Army Institute of Technology
+                        Pune, Maharashtra 411015
                     </address>
                     <span class="d-block">
-                        Tel:
-                        <a href="tel:060-070-0980" class="tm-color-gray">060-070-0980</a>
+                        Phone:
+                        <a href="tel:7410825820" class="tm-color-gray">7410825820</a>
                     </span>
                     <span class="mb-4 d-block">
                         Email:
-                        <a href="mailto:info@company.com" class="tm-color-gray">info@company.com</a>
+                        <a href="mailto:kumarumang4386@gmail.com" class="tm-color-gray">kumarumang4386@gmail.com</a>
                     </span>
                     <p class="mb-5 tm-line-height-short">
-                        Maecenas eu mi eu dui cursus
-                        consequat non eu metus. Morbi ac
-                        turpis eleifend, commodo purus
-                        eget, commodo mauris.
+                        Please tell us your name, email address, and your message. 
+                        We will get back to you as soon as possible.
                     </p>
                     <ul class="tm-social-links">
                         <li class="mb-2">

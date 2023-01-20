@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import generic
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
-from django.urls import reverse_lazy
+from django.db.models import Count
 
 from . forms import *
 from django.contrib import messages
@@ -20,7 +20,7 @@ class IndexView(generic.TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		
-		posts = Post.objects.all()
+		posts = Post.objects.all().annotate(comment_count=Count('comment')).order_by('-id')
 		latest  = Post.objects.all().order_by('-id')[:3]
 		context['posts'] = posts
 		context['latest'] = latest
@@ -34,7 +34,7 @@ class PostView(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return super().get_queryset().filter(is_active=True)
+        return super().get_queryset().filter(is_active=True).annotate(comment_count=Count('comment'))
 
 
 # Detailed Post and Comments
@@ -56,23 +56,49 @@ class PostDetailView(generic.DetailView):
         comment.content = request.POST['content']
         comment.save()
         messages.success(request, "Comment added successfully")
+        messages.get_messages(request).used = True
         return self.get(request, *args, **kwargs)
 
 class AboutView(generic.TemplateView):
 	template_name = "about.html"
 
 
-class PostBlog(generic.FormView):
+class PostBlog(LoginRequiredMixin, generic.FormView):
 	template_name = "postBlog.html"
 	form_class = PostForm
-	success_url = "/"
+	success_url = "/postBlog/"
 
 	def form_valid(self, form):
 		blogpost = form.save(commit=False)
 		blogpost.author = self.request.user
 		blogpost.save()
-		messages.success(self.request, "Blog post created successfully")
+		messages.success(self.request, "Blog post created successfully"); messages.get_messages(self.request).used = True
 		return super().form_valid(form)
+
+
+# Edit Post
+class EditPostView(LoginRequiredMixin, generic.UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'editPost.html'
+    success_url = "/"
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Post updated successfully')
+        messages.get_messages(self.request).used = True
+        return super().form_valid(form)
+
+
+# Delete Post
+class DeletePostView(LoginRequiredMixin, generic.DeleteView):
+    model = Post
+    template_name = 'deletePost.html'
+    success_url = "/"
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Post deleted successfully')
+        messages.get_messages(self.request).used = True
+        return super().delete(request, *args, **kwargs)
 
 
 class SearchBlog(generic.View):
@@ -96,7 +122,7 @@ class DashboardView(generic.TemplateView):
 		users = UserProfile.objects.filter(is_active=True)
 		posts = Post.objects.filter(author=self.request.user)
 		context['posts'] = posts
-		context['users'] = users
+		context['users'] = users; context['post_count'] = len(posts)
 		
 		return context
 
@@ -113,17 +139,18 @@ class EditProfileView(generic.UpdateView):
 
     def form_valid(self, form):
         messages.success(self.request, 'Profile updated successfully')
+        messages.get_messages(self.request).used = True
         return super().form_valid(form)
 
 # Contact
 class ContactView(generic.FormView):
 	template_name = "contact.html"
 	form_class = ContactForm
-	success_url = "/"
+	success_url = "/contact/"
 	
 	def form_valid(self, form):
 		form.save()
-		messages.success(self.request, 'Thank you. We will be in touch soon.')
+		messages.success(self.request, 'Thank you. We will be in touch soon.'); messages.get_messages(self.request).used = True
 		return super().form_valid(form)
 
 
@@ -145,6 +172,7 @@ class LoginView(generic.View):
             return redirect('blog:index')
         else:
             messages.error(request, 'Invalid Username or Password')
+            messages.get_messages(request).used = True
             return render(request, self.template_name)
 
 
@@ -166,20 +194,24 @@ class SignupView(generic.View):
 
         if password != cpassword:
             messages.error(request, 'Confirm Password does not match')
+            messages.get_messages(request).used = True
             return render(request, self.template_name)
         else:
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'Username already exists')
+                messages.get_messages(request).used = True
                 return render(request, self.template_name)
             else:
                 if User.objects.filter(email=email).exists():
                     messages.error(request, 'Email already exists')
+                    messages.get_messages(request).used = True
                     return render(request, self.template_name)
                 else:
                     user = User.objects.create_user(username=username, email=email, password=password, first_name=fname, last_name=lname)
                     user.save()
                     messages.success(request, 'Account created successfully')
-                    return redirect('blog:index')
+                    messages.get_messages(request).used = True
+                    return redirect('blog:login')
 
 
 class LogoutView(generic.View):

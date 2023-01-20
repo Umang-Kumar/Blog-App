@@ -3,9 +3,25 @@
 {% block content %}
     <div class="container-fluid">         
             <div class="row tm-row">
-                <div class="col-12">
+                <div class="row-12">
                     <hr class="tm-hr-primary tm-mb-55">
-                    <img src="{{object.image.url}}" alt="Image" class="img-fluid">
+                    {% if object.image %}
+                        <img src="{{object.image.url}}" alt="Image" class="img-fluid">
+                    {% else %}
+                        <img src="{% static 'img/defaultBlog.jpg' %}" alt="Image" class="img-fluid">
+                    {% endif %}
+                </div>
+                <div class="row-12" style="display: flex; margin-top: 2%">
+                    {% if user.is_authenticated %}
+                        {% if user.id == post.author.id %}
+                        <div class="col-7">
+                            <small><a href="{{post.slug}}/edit/" class="tm-btn tm-btn-primary tm-btn-small">Edit Post</a></small>
+                        </div>
+                        <div class="col-7">
+                            <small><a href="{{post.id}}/delete/" class="tm-btn tm-btn-primary tm-btn-small">Delete Post</a></small>
+                        </div>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
             <div class="row tm-row">
@@ -17,11 +33,30 @@
                             <p>
                                 {{object.body|safe}}
                             </p>
-                            <span class="d-block text-right tm-color-primary">Creative . Design . Business</span>
+                            <span class="d-block text-right tm-color-primary">- by <b>{{object.author}}</b></span>
                         </div>
                         
                         <!-- Comments -->
                         <div>
+                            {% if user.is_authenticated %}
+                                <form action="/blog/{{object.slug}}" method="POST" class="mb-5 tm-comment-form"> {% csrf_token %}
+                                    <h2 class="tm-color-primary tm-post-title mb-4">Your comment</h2>
+                                    <div class="mb-4">
+                                        <textarea class="form-control" id="content" name="content" rows="6"></textarea>
+                                    </div>
+                                    <div class="text-right">
+                                        <button class="tm-btn tm-btn-primary tm-btn-small">Submit</button>                        
+                                    </div>                                
+                                </form>
+                            {% else %}
+                                <div class="mb-5 tm-comment-form">
+                                    <h2 class="tm-color-primary tm-post-title mb-4">Your comment</h2>
+                                    <div class="mb-4">
+                                        <h4>Please <a href="/login/">Login</a> to comment</h4>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
                             <h2 class="tm-color-primary tm-post-title"> All Comments ({{comments.count}})</h2>
                             <hr class="tm-hr-primary tm-mb-45">
                             {% for comment in comments %}
@@ -45,15 +80,7 @@
                                 </div>                                
                             </div>
                             {% endfor %}
-                            <form action="/blog/{{object.slug}}" method="POST" class="mb-5 tm-comment-form"> {% csrf_token %}
-                                <h2 class="tm-color-primary tm-post-title mb-4">Your comment</h2>
-                                <div class="mb-4">
-                                    <textarea class="form-control" id="content" name="content" rows="6"></textarea>
-                                </div>
-                                <div class="text-right">
-                                    <button class="tm-btn tm-btn-primary tm-btn-small">Submit</button>                        
-                                </div>                                
-                            </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -62,33 +89,9 @@
                         <hr class="mb-3 tm-hr-primary">
                         <h2 class="mb-4 tm-post-title tm-color-primary">Categories</h2>
                         <ul class="tm-mb-75 pl-5 tm-category-list">
-                            <li><a href="#" class="tm-color-primary">Visual Designs</a></li>
-                            <li><a href="#" class="tm-color-primary">Travel Events</a></li>
-                            <li><a href="#" class="tm-color-primary">Web Development</a></li>
-                            <li><a href="#" class="tm-color-primary">Video and Audio</a></li>
-                            <li><a href="#" class="tm-color-primary">Etiam auctor ac arcu</a></li>
-                            <li><a href="#" class="tm-color-primary">Sed im justo diam</a></li>
+                            <li><a href="#" class="tm-color-primary">{{object.category}}</a></li>
                         </ul>
                         <hr class="mb-3 tm-hr-primary">
-                        <h2 class="tm-mb-40 tm-post-title tm-color-primary">Related Posts</h2>
-                        <a href="#" class="d-block tm-mb-40">
-                            <figure>
-                                <img src="img/img-02.jpg" alt="Image" class="mb-3 img-fluid">
-                                <figcaption class="tm-color-primary">Duis mollis diam nec ex viverra scelerisque a sit</figcaption>
-                            </figure>
-                        </a>
-                        <a href="#" class="d-block tm-mb-40">
-                            <figure>
-                                <img src="img/img-05.jpg" alt="Image" class="mb-3 img-fluid">
-                                <figcaption class="tm-color-primary">Integer quis lectus eget justo ullamcorper ullamcorper</figcaption>
-                            </figure>
-                        </a>
-                        <a href="#" class="d-block tm-mb-40">
-                            <figure>
-                                <img src="img/img-06.jpg" alt="Image" class="mb-3 img-fluid">
-                                <figcaption class="tm-color-primary">Nam lobortis nunc sed faucibus commodo</figcaption>
-                            </figure>
-                        </a>
                     </div>                    
                 </aside>
             </div>

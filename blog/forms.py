@@ -28,9 +28,9 @@ class PostForm(forms.ModelForm):
 			'image',
 		]
         widgets = {
-			'title': forms.TextInput(attrs={'class': 'form-control'}),
-			'category': forms.TextInput(attrs={'class': 'form-control'}),
-			'body': forms.Textarea(attrs={'class': 'form-control'}),
+			'title': forms.TextInput(attrs={'class': 'form-control', 'required': 'True'}),
+			'category': forms.TextInput(attrs={'class': 'form-control' , 'required': 'True'}),
+			'body': forms.Textarea(attrs={'class': 'form-control' , 'required': 'True'}),
 			'image': forms.FileInput(attrs={'class': 'form-control'}),
 		}
 

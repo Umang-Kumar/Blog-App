@@ -1,4 +1,5 @@
 {% extends 'signbase.html' %}
+{% comment %} {% load messages %} {% endcomment %}
 {% load static %}
 {% block content %}
 
@@ -22,6 +23,13 @@
                         <div class="d-flex">
                             <div class="w-100">
                                 <h3 class="mb-4"> Sign Up</h3>
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <div class="alert alert-info" role="alert">
+                                            <strong>Alert!</strong> {{ message }}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
                             </div>
 
                         </div>
@@ -62,4 +70,4 @@
         </div>
     </div>
 
-    {% endblock  %}
+{% endblock  %}

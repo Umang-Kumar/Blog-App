@@ -1,18 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %} Edit Page {% endblock %}
+{% block title %} Edit Profile {% endblock %}
 
 {% block content %}
+<h1 class="text-center">Edit your Profile</h1>
     <form action="/profile/edit/" enctype="multipart/form-data" method="POST"> {% csrf_token %}
         <div class="container mt-3">
     {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Update</button>
         </div>
     </form>
-    <script>
-        {% if alert %}
-        alert('Your Profile has been updated successfully.');
-        document.location = '/profile/';
-        {% endif %}
-    </script>
 {% endblock %}

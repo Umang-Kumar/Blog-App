@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from . forms import *
 from django.contrib import messages
@@ -15,17 +16,27 @@ from .models import *
 
 # Blog(View, Search, Post)
 class IndexView(generic.TemplateView):
-	template_name = "index.html"
+    template_name = "index.html"
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		
-		posts = Post.objects.all().annotate(comment_count=Count('comment')).order_by('-id')
-		latest  = Post.objects.all().order_by('-id')[:3]
-		context['posts'] = posts
-		context['latest'] = latest
-		
-		return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        posts = Post.objects.all().annotate(comment_count=Count('comment')).order_by('-id')
+        paginator = Paginator(posts, 6)
+        page_number = self.request.GET.get('page')
+        try:
+            posts = paginator.page(page_number)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
+
+        latest  = Post.objects.all().order_by('-id')[:3]
+        context['posts'] = posts
+        context['latest'] = latest
+        context['paginator'] = paginator
+
+        return context
+
     
 
 class PostView(generic.ListView):

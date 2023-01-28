@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-from django.contrib.auth import views as auth_views
 
 app_name = 'blog'
 
@@ -14,7 +13,8 @@ urlpatterns = [
     path('blog/<slug:slug>/edit/', views.EditPostView.as_view(), name='edit_post'),
     path('search/', views.SearchBlog.as_view(), name='search'),
     path('blog/<int:pk>/delete/', views.DeletePostView.as_view(), name='delete_post'),
-
+    path('page/<int:page_number>/', views.IndexView.as_view(), name='index_paginated'),
+    
     # profile
     path("profile/", views.DashboardView.as_view(), name="profile"),
     path("profile/edit/", views.EditProfileView.as_view(), name="edit_profile"),
@@ -31,5 +31,4 @@ urlpatterns = [
     # contact & about
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('about/', views.AboutView.as_view(), name='about'),
-
 ]

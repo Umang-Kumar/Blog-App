@@ -40,28 +40,33 @@
             </div>
             <div class="row tm-row tm-mt-100 tm-mb-75">
                 <div class="tm-prev-next-wrapper">
-                    <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20">Prev</a>
-                    <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
+                    {% if posts.has_previous %}
+                        <a href="?page={{ posts.previous_page_number }}" class="mb-2 tm-btn tm-btn-primary tm-prev-next tm-mr-20">Prev</a>
+                    {% endif %}
+                    {% if posts.has_next %}
+                        <a href="?page={{ posts.next_page_number }}" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
+                    {% endif %}
                 </div>
                 <div class="tm-paging-wrapper">
                     <span class="d-inline-block mr-3">Page</span>
                     <nav class="tm-paging-nav d-inline-block">
                         <ul>
-                            <li class="tm-paging-item active">
-                                <a href="#" class="mb-2 tm-btn tm-paging-link">1</a>
-                            </li>
-                            <li class="tm-paging-item">
-                                <a href="#" class="mb-2 tm-btn tm-paging-link">2</a>
-                            </li>
-                            <li class="tm-paging-item">
-                                <a href="#" class="mb-2 tm-btn tm-paging-link">3</a>
-                            </li>
-                            <li class="tm-paging-item">
-                                <a href="#" class="mb-2 tm-btn tm-paging-link">4</a>
-                            </li>
+                            {% for page in paginator.page_range|slice:":3" %}
+                                <li class="tm-paging-item {% if page == posts.number %}active{% endif %}">
+                                    <a href="?page={{ page }}" class="mb-2 tm-btn tm-paging-link">{{ page }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if paginator.num_pages >= 4 %}
+                                <li class="tm-paging-item">
+                                    <a href="#" class="mb-2 tm-btn tm-paging-link">...</a>
+                                </li>
+                                <li class="tm-paging-item {% if paginator.num_pages == posts.number %} active {% endif %}">
+                                    <a href="?page={{ paginator.num_pages }}" class="mb-2 tm-btn tm-paging-link">{{ paginator.num_pages }}</a>
+                                </li>                                
+                            {% endif %}
                         </ul>
                     </nav>
-                </div>                
-            </div>            
+                </div>
+            </div>
     </div>
 {% endblock %}

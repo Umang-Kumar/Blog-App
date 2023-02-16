@@ -124,7 +124,7 @@ class SearchBlog(generic.View):
         return render(request, self.template_name)
 
 
-# User's Dashboard
+# User's Dashboard & Profile
 class DashboardView(generic.TemplateView):
     template_name = "profile.html"
 

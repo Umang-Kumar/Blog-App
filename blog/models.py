@@ -13,7 +13,6 @@ class UserProfile(models.Model):
     
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(blank=True, null=True, upload_to="avatar")
-    title = models.CharField(max_length=200, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     phone_no = models.IntegerField(blank=True, null=True)
     facebook = models.CharField(max_length=300, blank=True, null=True)

@@ -52,14 +52,14 @@ class PostView(generic.ListView):
 class PostDetailView(generic.DetailView):
     model = Post
     template_name = 'post.html'
-	
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         comments = Comment.objects.filter(blog=self.get_object())
         print(len(comments))
         context['comments'] = comments
         return context
-	
+    
     def post(self, request, *args, **kwargs):
         comment = Comment()
         comment.blog = self.get_object()
@@ -71,20 +71,20 @@ class PostDetailView(generic.DetailView):
         return self.get(request, *args, **kwargs)
 
 class AboutView(generic.TemplateView):
-	template_name = "about.html"
+    template_name = "about.html"
 
 
 class PostBlog(LoginRequiredMixin, generic.FormView):
-	template_name = "postBlog.html"
-	form_class = PostForm
-	success_url = "/postBlog/"
+    template_name = "postBlog.html"
+    form_class = PostForm
+    success_url = "/postBlog/"
 
-	def form_valid(self, form):
-		blogpost = form.save(commit=False)
-		blogpost.author = self.request.user
-		blogpost.save()
-		messages.success(self.request, "Blog post created successfully"); messages.get_messages(self.request).used = True
-		return super().form_valid(form)
+    def form_valid(self, form):
+        blogpost = form.save(commit=False)
+        blogpost.author = self.request.user
+        blogpost.save()
+        messages.success(self.request, "Blog post created successfully"); messages.get_messages(self.request).used = True
+        return super().form_valid(form)
 
 
 # Edit Post
@@ -126,16 +126,24 @@ class SearchBlog(generic.View):
 
 # User's Dashboard
 class DashboardView(generic.TemplateView):
-	template_name = "profile.html"
+    template_name = "profile.html"
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		users = UserProfile.objects.filter(is_active=True)
-		posts = Post.objects.filter(author=self.request.user)
-		context['posts'] = posts
-		context['users'] = users; context['post_count'] = len(posts)
-		
-		return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        users = UserProfile.objects.filter(is_active=True)
+        posts = Post.objects.filter(author=self.request.user)
+        if len(posts) > 10:
+            title = "Hardcore Blogger"
+        elif len(posts) > 5:
+            title = "Average Blogger"
+        else:
+            title = "Nigga Blogger"
+        context['posts'] = posts
+        context['users'] = users
+        context['post_count'] = len(posts)
+        context['title'] = title
+        
+        return context
 
 
 # Edit Profile
@@ -155,14 +163,14 @@ class EditProfileView(generic.UpdateView):
 
 # Contact
 class ContactView(generic.FormView):
-	template_name = "contact.html"
-	form_class = ContactForm
-	success_url = "/contact/"
-	
-	def form_valid(self, form):
-		form.save()
-		messages.success(self.request, 'Thank you. We will be in touch soon.'); messages.get_messages(self.request).used = True
-		return super().form_valid(form)
+    template_name = "contact.html"
+    form_class = ContactForm
+    success_url = "/contact/"
+    
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, 'Thank you. We will be in touch soon.'); messages.get_messages(self.request).used = True
+        return super().form_valid(form)
 
 
 # Authentication & Registration
